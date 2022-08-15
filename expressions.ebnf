@@ -1,0 +1,32 @@
+(* Digits and numbers *)
+non zero digit = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+digit = " 0 " | non zero digit ;
+natural number = non zero digit , { digit } ;
+integer = "0" | [ "-" ] , natural number ;
+
+(* Identifiers *)
+lower case letter = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m"
+                  | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" ;
+upper case letter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M"
+                  | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ;
+letter = upper case letter | lower case letter ;
+constants = "e" | ( "p" | "P" ) , ( "i" | "I" ) ;
+variable = ( letter , { letter | digit | "_" } ) - constants ;
+
+(* Mathematical symbols *)
+comparator = "<" | "<=" | "=" | ">=" | ">" | "!=" ;
+assignment = "<-" | ":=" ;
+exponent operator = "^" ;
+multiply or divide = "*" | ":" | "/" ;
+add or subtract = "+" | "-" ;
+postfix unary operator = "!" ;
+prefix unary operator = "-" ;
+binary operator = exponent operator | multiply or divide | add or subtract ;
+
+(* Expressions *)
+expression = term , { add or subtract , term } [ comparator , term ] | variable , assignment , term ;
+term = factor , { multiply or divide , factor } ;
+factor = base or exponent , { exponent operator , base or exponent } ;
+base or exponent = expression | "(" , expression, ")" | "[" , expression, "]" | "{" , expression, "}"
+                 | number or variable , [ postfix unary operator ] ;
+number or variable = [ prefix unary operator ] , ( number | variable ) ;
